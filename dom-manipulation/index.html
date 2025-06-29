@@ -33,6 +33,10 @@
       font-size: 0.9rem;
       margin-top: 5px;
     }
+
+    .import-export {
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
@@ -56,6 +60,13 @@
     <input id="newQuoteCategory" type="text" placeholder="Enter quote category" />
     <button id="addQuoteBtn">Add Quote</button>
     <div id="feedback" class="message"></div>
+  </div>
+
+  <!-- Import / Export JSON -->
+  <div class="import-export">
+    <h2>Import/Export Quotes</h2>
+    <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+    <button onclick="exportToJsonFile()">Export Quotes to JSON</button>
   </div>
 
   <script src="script.js"></script>
