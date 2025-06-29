@@ -1,0 +1,14 @@
+{
+  "quotes": [
+    {
+      "id": 1001,
+      "text": "Stay hungry, stay foolish.",
+      "category": "Inspiration"
+    },
+    {
+      "id": 1002,
+      "text": "Do what you can, with what you have, where you are.",
+      "category": "Motivation"
+    }
+  ]
+}
