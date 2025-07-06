@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Quote Generator</title>
-    <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -19,11 +19,15 @@
                 <div class="stat-number" id="totalCategories">0</div>
                 <div class="stat-label">Categories</div>
             </div>
+            <div class="stat-item">
+                <div class="stat-number" id="filteredQuotes">0</div>
+                <div class="stat-label">Filtered Quotes</div>
+            </div>
         </div>
 
         <div class="category-filter">
-            <label for="categorySelect">Filter by Category:</label>
-            <select id="categorySelect">
+            <label for="categoryFilter">Filter by Category:</label>
+            <select id="categoryFilter" onchange="filterQuotes()">
                 <option value="all">All Categories</option>
             </select>
         </div>
@@ -87,7 +91,6 @@
             </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
