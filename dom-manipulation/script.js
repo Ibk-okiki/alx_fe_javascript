@@ -34,10 +34,10 @@ const currentFilterEl = document.getElementById('currentFilter');
 function init() {
     updateStats();
     createCategoryFilters();
-    displayRandomQuote(); // Use displayRandomQuote instead of showRandomQuote
+    showRandomQuote();
     
-    // Event listeners - specifically for "Show New Quote" button
-    newQuoteBtn.addEventListener('click', displayRandomQuote);
+    // Event listeners
+    newQuoteBtn.addEventListener('click', showRandomQuote);
     toggleFormBtn.addEventListener('click', toggleAddQuoteForm);
     
     // Add keyboard support for form
@@ -55,47 +55,26 @@ function init() {
 }
 
 /**
- * Display a random quote - Core function for random quote selection and DOM update
- * Uses innerHTML for direct DOM manipulation as required
+ * Show a random quote based on current filter
+ * Core function for displaying quotes with category filtering
  */
-function displayRandomQuote() {
+function showRandomQuote() {
     // Filter quotes based on current filter
     const filteredQuotes = currentFilter === 'all' ? 
         quotes : quotes.filter(quote => quote.category.toLowerCase() === currentFilter.toLowerCase());
     
     // Handle empty filter results
     if (filteredQuotes.length === 0) {
-        quoteDisplay.innerHTML = `
-            <div class="quote-text">"No quotes found in this category."</div>
-            <div class="quote-category">— Try adding some!</div>
-        `;
+        displayQuote("No quotes found in this category.", "Try adding some!");
         return;
     }
     
-    // Select random quote from filtered results using Math.random()
-    const random = Math.floor(Math.random() * filteredQuotes.length);
-    const selectedQuote = filteredQuotes[random];
+    // Select random quote from filtered results
+    const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+    const selectedQuote = filteredQuotes[randomIndex];
     
-    // Update DOM directly using innerHTML
-    quoteDisplay.innerHTML = `
-        <div class="quote-text fade-in">"${selectedQuote.text}"</div>
-        <div class="quote-category fade-in">— ${selectedQuote.category}</div>
-    `;
-    
-    // Add visual feedback animation
-    quoteDisplay.style.transform = 'scale(1.02)';
-    setTimeout(() => {
-        quoteDisplay.style.transform = 'scale(1)';
-    }, 200);
-    
-    console.log('Random quote displayed:', selectedQuote);
-}
-
-/**
- * Legacy function name support - calls displayRandomQuote
- */
-function showRandomQuote() {
-    displayRandomQuote();
+    // Display the selected quote
+    displayQuote(selectedQuote.text, selectedQuote.category);
 }
 
 /**
@@ -172,7 +151,7 @@ function toggleAddQuoteForm() {
 
 /**
  * Add a new quote to the collection
- * Core function for dynamic content addition with array manipulation and DOM updates
+ * Core function for dynamic content addition
  */
 function addQuote() {
     const text = newQuoteText.value.trim();
@@ -190,29 +169,23 @@ function addQuote() {
         category: category
     };
     
-    // Add to quotes array - direct array manipulation
+    // Add to quotes array - dynamic data manipulation
     quotes.push(newQuote);
-    console.log('Quote added to array:', newQuote);
-    console.log('Updated quotes array length:', quotes.length);
     
-    // Update the DOM dynamically
-    updateStats(); // Update statistics display
-    createCategoryFilters(); // Recreate category filter buttons
-    clearForm(); // Clear the form inputs
-    toggleAddQuoteForm(); // Hide the form
+    // Update the entire UI dynamically
+    updateStats();
+    createCategoryFilters();
+    clearForm();
+    toggleAddQuoteForm();
     
-    // Display the newly added quote immediately using innerHTML
-    quoteDisplay.innerHTML = `
-        <div class="quote-text fade-in">"${newQuote.text}"</div>
-        <div class="quote-category fade-in">— ${newQuote.category}</div>
-    `;
+    // Display the newly added quote
+    displayQuote(newQuote.text, newQuote.category);
     
     // Show success notification
     showNotification('Quote added successfully!');
     
-    // Debug logging
-    console.log('DOM updated after adding quote');
-    console.log('Total quotes now:', quotes.length);
+    console.log('Quote added:', newQuote);
+    console.log('Total quotes:', quotes.length);
 }
 
 /**
@@ -278,7 +251,7 @@ function createCategoryButton(displayText, filterValue) {
         
         // Update statistics and display new quote
         updateStats();
-        displayRandomQuote(); // Use displayRandomQuote for consistency
+        showRandomQuote();
         
         console.log('Filter changed to:', currentFilter);
     });
@@ -440,7 +413,7 @@ function deleteQuote(quoteToDelete) {
             quotes.splice(index, 1);
             updateStats();
             createCategoryFilters();
-            displayRandomQuote(); // Use displayRandomQuote consistently
+            showRandomQuote();
             showNotification('Quote deleted successfully!');
         }
     }
@@ -494,7 +467,7 @@ document.addEventListener('keydown', (e) => {
     // Spacebar to show new quote
     if (e.code === 'Space' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'INPUT') {
         e.preventDefault();
-        displayRandomQuote(); // Use displayRandomQuote consistently
+        showRandomQuote();
     }
     
     // Ctrl+N to add new quote
