@@ -4,253 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Quote Generator</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #4a5568;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        #quoteDisplay {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            color: white;
-            min-height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        #quoteDisplay:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        }
-
-        .quote-text {
-            font-size: 1.4em;
-            font-style: italic;
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .quote-category {
-            font-size: 1em;
-            font-weight: bold;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 30px 0;
-            flex-wrap: wrap;
-        }
-
-        button {
-            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        button:active {
-            transform: translateY(0);
-        }
-
-        .add-quote-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .category-filter {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #333;
-        }
-
-        #addQuoteForm {
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 20px 0;
-            border: 2px solid #e2e8f0;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #4a5568;
-        }
-
-        input[type="text"], textarea {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .form-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        .cancel-btn {
-            background: linear-gradient(135deg, #e53e3e 0%, #c53030 100%);
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 30px 0;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-item {
-            flex: 1;
-        }
-
-        .stat-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #667eea;
-        }
-
-        .stat-label {
-            color: #666;
-            font-size: 0.9em;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .category-filters {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .category-btn {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            color: #333;
-            font-size: 14px;
-            padding: 8px 16px;
-        }
-
-        .category-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .slide-in {
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(-100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateX(0); }
-            to { opacity: 0; transform: translateX(100%); }
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            button {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
@@ -265,37 +19,71 @@
                 <div class="stat-number" id="totalCategories">0</div>
                 <div class="stat-label">Categories</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-number" id="currentFilter">All</div>
-                <div class="stat-label">Current Filter</div>
-            </div>
         </div>
 
-        <div class="category-filters" id="categoryFilters"></div>
-        
-        <div id="quoteDisplay" class="fade-in">
-            <div class="quote-text">Welcome to the Dynamic Quote Generator!</div>
-            <div class="quote-category">Click "Show New Quote" to begin</div>
+        <div class="category-filter">
+            <label for="categorySelect">Filter by Category:</label>
+            <select id="categorySelect">
+                <option value="all">All Categories</option>
+            </select>
         </div>
-        
+
+        <div id="quoteDisplay" class="empty-state">
+            Click "Show New Quote" to display an inspiring quote!
+        </div>
+
         <div class="controls">
             <button id="newQuote">Show New Quote</button>
-            <button id="toggleAddForm" class="add-quote-btn">Add New Quote</button>
+            <button id="toggleForm">Add New Quote</button>
+            <button id="exportQuotes">Export Quotes</button>
+            <button id="clearStorage">Clear All Data</button>
         </div>
-        
-        <div id="addQuoteForm" style="display: none;">
-            <h3>Add a New Quote</h3>
+    </div>
+
+    <div class="container" id="addQuoteContainer" style="display: none;">
+        <h2>Add Your Own Quote</h2>
+        <div class="add-quote-form">
             <div class="form-group">
                 <label for="newQuoteText">Quote Text:</label>
-                <textarea id="newQuoteText" placeholder="Enter your inspirational quote here..."></textarea>
+                <textarea id="newQuoteText" placeholder="Enter an inspiring quote..."></textarea>
             </div>
             <div class="form-group">
                 <label for="newQuoteCategory">Category:</label>
-                <input type="text" id="newQuoteCategory" placeholder="e.g., Motivation, Wisdom, Success">
+                <input id="newQuoteCategory" type="text" placeholder="e.g., Motivation, Wisdom, Life" />
             </div>
-            <div class="form-buttons">
-                <button onclick="cancelAddQuote()" class="cancel-btn">Cancel</button>
+            <div class="form-group">
+                <label for="newQuoteAuthor">Author (Optional):</label>
+                <input id="newQuoteAuthor" type="text" placeholder="Quote author or source" />
+            </div>
+            <div class="controls">
                 <button onclick="addQuote()">Add Quote</button>
+                <button onclick="cancelAddQuote()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="importExportContainer" style="display: none;">
+        <h2>Import & Export Quotes</h2>
+        <div class="add-quote-form">
+            <div class="form-group">
+                <label for="importFile">Import Quotes from JSON File:</label>
+                <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+                <small style="color: #718096; display: block; margin-top: 5px;">
+                    Select a JSON file containing quotes to import them into your collection.
+                </small>
+            </div>
+            <div class="form-group">
+                <label>Export Options:</label>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button onclick="exportToJsonFile()">Export All Quotes</button>
+                    <button onclick="exportToJsonFile('current')">Export Current Category</button>
+                </div>
+                <small style="color: #718096; display: block; margin-top: 5px;">
+                    Download your quotes as a JSON file for backup or sharing.
+                </small>
+            </div>
+            <div class="controls">
+                <button onclick="toggleImportExport()">Close</button>
             </div>
         </div>
     </div>
